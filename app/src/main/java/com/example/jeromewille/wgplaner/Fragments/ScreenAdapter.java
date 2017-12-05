@@ -51,4 +51,9 @@ public class ScreenAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return numberofTabs;
     }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return "TAB" + position;
+    }
 }
