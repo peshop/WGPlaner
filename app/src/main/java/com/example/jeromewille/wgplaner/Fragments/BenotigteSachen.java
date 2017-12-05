@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jeromewille.wgplaner.Adapter.ArticleListViewAdapter;
+import com.example.jeromewille.wgplaner.Classes.DataStructure.Article;
 import com.example.jeromewille.wgplaner.R;
 
 import java.util.ArrayList;
@@ -33,9 +35,9 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class BenotigteSachen extends Fragment {
-    private ArrayAdapter<String> stringArrayAdapter;
-    private List<String> stringList;
+    private List<Article> stringList;
     private ListView listView;
+    private ArticleListViewAdapter articleListViewAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,54 +89,20 @@ public class BenotigteSachen extends Fragment {
 
 
         this.stringList = new ArrayList<>();
-        this.stringList.add("Toilettenpapier");
-        this.stringList.add("Seife");
-        this.stringList.add("Geschirrtücher");
-        this.stringList.add("Milch");
-        this.stringList.add("Öl");
-        this.stringList.add("Salz");
-        this.stringList.add("Fit");
-        this.stringList.add("Waschpulver");
-        this.stringList.add("Mikrowelle");
+        this.stringList.add(new Article("Toilettenpapier", "", 3.40f));
+        this.stringList.add(new Article("Seife", "Bitte mit Zitronenaroma", 3.40f));
+        this.stringList.add(new Article("Geschirrtücher", "Bitte von ...", 3.40f));
+        this.stringList.add(new Article("Milch", "frische 3,5% ", 3.40f));
+        this.stringList.add(new Article("Öl", "Rapsöl", 3.40f));
+        this.stringList.add(new Article("Salz", "Von der Marke", 3.40f));
+        this.stringList.add(new Article("Fit", "ist egal welches", 3.40f));
+        this.stringList.add(new Article("Waschpulver", "Von lenor", 3.40f));
+        this.stringList.add(new Article("Mikrowelle", "", 3.40f));
 
-        this.stringArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.benotigte_sachen_list_view_item, this.stringList)
-        {
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                final View view1;
-
-                LayoutInflater inflater1 = LayoutInflater.from(getContext());
-                if (convertView == null)
-                    convertView = inflater.inflate(R.layout.benotigte_sachen_list_view_item, parent, false);
-
-                view1 = convertView;
-
-                TextView tvname = (TextView) convertView.findViewById(R.id.textView);
-
-                CheckBox cbgekauft = (CheckBox) convertView.findViewById(R.id.checkBox);
-                cbgekauft.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        if (b)
-                            view1.setBackgroundResource(R.color.colorPrimary);
-                        else
-                            view1.setBackgroundResource(android.R.color.transparent);
-                    }
-                });
-
-                tvname.setText(getItem(position));
-                if (getItem(position).length() > 4)
-                    cbgekauft.setChecked(true);
-                else
-                    cbgekauft.setChecked(false);
-
-                 return convertView;
-            }
-        };
+        this.articleListViewAdapter = new ArticleListViewAdapter(getContext(), R.layout.benotigte_sachen_list_view_item, this.stringList);
 
         this.listView = (ListView) view.findViewById(R.id.BenotigteSachen);
-        this.listView.setAdapter(this.stringArrayAdapter);
+        this.listView.setAdapter(this.articleListViewAdapter);
         this.listView.setChoiceMode(ListView.CHOICE_MODE_NONE);
 
         return  view;
